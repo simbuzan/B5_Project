@@ -16,7 +16,7 @@
 #           heroku_app_name: "rematch-htw" #Must be unique in Heroku
 #           heroku_email: "rematch.htw@gmail.com"
 
-name: Blog tests
+name: Smoke tests
     on: [push]
     jobs:
       cypress-run:
@@ -24,12 +24,12 @@ name: Blog tests
         steps:
           - name: Checkout
             uses: actions/checkout@v1
-          - name: Run blog test
+          - name: Run smoke tests
             uses: cypress-io/github-action@v1
             with:
               start: npm start
               wait-on: 'http://localhost:3000'
-              config: baseUrl=https://localhost:3000
+              config: baseUrl=http://localhost:3000
               with:
                 record: true
               env:
