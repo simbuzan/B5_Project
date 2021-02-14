@@ -17,17 +17,21 @@
 #           heroku_email: "rematch.htw@gmail.com"
 
 name: Smoke tests
-    on: [push]
+    on: 
+      push:
+        branches: [ main ]
     jobs:
       cypress-run:
         runs-on: ubuntu-latest
         steps:
           - name: Checkout
             uses: actions/checkout@v1
-          - name: Run smoke tests
+
+          - name: Cypress run
             uses: cypress-io/github-action@v1
             with:
               start: npm start
+              run: npm run test
               wait-on: 'http://localhost:3000'
               config: baseUrl=http://localhost:3000
               with:
