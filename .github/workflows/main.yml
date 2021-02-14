@@ -1,17 +1,36 @@
-name: Deploy
+# name: Deploy
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.8.9 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "rematch-htw" #Must be unique in Heroku
-          heroku_email: "rematch.htw@gmail.com"
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: akhileshns/heroku-deploy@v3.8.9 # This is the action
+#         with:
+#           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+#           heroku_app_name: "rematch-htw" #Must be unique in Heroku
+#           heroku_email: "rematch.htw@gmail.com"
+
+name: Blog tests
+    on: [push]
+    jobs:
+      cypress-run:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v1
+          - name: Run blog test
+            uses: cypress-io/github-action@v1
+            with:
+              start: npm start
+              wait-on: 'http://localhost:3000'
+              config: baseUrl=https://localhost:3000
+              with:
+                record: true
+              env:
+                CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
